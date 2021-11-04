@@ -1,5 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native';
 import { IPGStage } from 'react-native-directpay-sdk';
 import WebView from 'react-native-webview';
 
@@ -14,6 +19,7 @@ interface States {
   token: string | null;
   link: string;
   loading: boolean;
+  webloading: boolean;
 }
 
 const sessionUrl = (stage: string) => {
@@ -25,7 +31,7 @@ const sessionUrl = (stage: string) => {
 class IPGComponent extends React.Component<Props, States> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
-    this.state = { link: '', token: null, loading: true };
+    this.state = { link: '', token: null, loading: true, webloading: false };
   }
 
   async createSession() {
@@ -70,20 +76,32 @@ class IPGComponent extends React.Component<Props, States> {
     return this.state.loading ? (
       <ActivityIndicator size="large" />
     ) : (
-      <WebView
-        style={styles.container}
-        source={{ uri: this.state.link! }}
-        onMessage={(event) => {
-          if (event.nativeEvent.url === this.state.link) {
-            if (event.nativeEvent.data) {
-              let data = JSON.parse(event.nativeEvent.data);
-              if (data.event_id === this.state.token) {
-                this.props.callback(data.response);
+      <SafeAreaView>
+        <WebView
+          style={styles.container}
+          source={{ uri: this.state.link! }}
+          onLoadStart={(a) => {
+            if (a.nativeEvent.url === this.state.link) {
+              this.setState({ webloading: true });
+            }
+          }}
+          onLoadEnd={(a) => {
+            if (a.nativeEvent.url === this.state.link) {
+              this.setState({ webloading: false });
+            }
+          }}
+          onMessage={(event) => {
+            if (event.nativeEvent.url === this.state.link) {
+              if (event.nativeEvent.data) {
+                let data = JSON.parse(event.nativeEvent.data);
+                if (data.event_id === this.state.token) {
+                  this.props.callback(data.response);
+                }
               }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </SafeAreaView>
     );
   }
 }
