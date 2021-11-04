@@ -17,8 +17,8 @@ import { IPGComponent, IPGStage } from 'react-native-directpay-ipg';
 
 <IPGComponent
     stage={IPGStage.DEV}
-    signature={params.signature}
-    dataString={params.payload}
+    signature={signature}
+    dataString={payload}
     callback={(data: any) => {
         console.log(JSON.stringify(data));
     }}
