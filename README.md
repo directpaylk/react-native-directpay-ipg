@@ -11,11 +11,18 @@ npm install react-native-directpay-sdk
 ## Usage
 
 ```js
-import { DirectpaySdkView } from "react-native-directpay-sdk";
+import { IPGComponent, IPGStage } from 'react-native-directpay-sdk';
 
 // ...
 
-<DirectpaySdkView color="tomato" />
+<IPGComponent
+    stage={IPGStage.DEV}
+    signature={params.signature}
+    dataString={params.payload}
+    callback={(data: any) => {
+        console.log(JSON.stringify(data));
+    }}
+/>
 ```
 
 ## Contributing

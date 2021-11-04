@@ -65,8 +65,6 @@ function CheckoutComponent(nav: any) {
         signature={params.signature}
         dataString={params.payload}
         callback={(data: any) => {
-          console.log(JSON.stringify(data));
-
           nav.navigation.navigate({
             name: 'Payment',
             params: { data },
@@ -222,7 +220,6 @@ function PaymentScreen(nav: any) {
 function createPayload(json: any) {
   if (!json) return '';
   let stringPayload = JSON.stringify(json);
-  console.log('[PAYLOAD]', stringPayload);
   return base64.encode(stringPayload);
 }
 

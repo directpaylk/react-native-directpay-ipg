@@ -26,7 +26,6 @@ class IPGComponent extends React.Component<Props, States> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = { link: '', token: null, loading: true };
-    console.log(props.stage, props.signature, props.dataString);
   }
 
   async createSession() {
@@ -47,7 +46,6 @@ class IPGComponent extends React.Component<Props, States> {
         this.props.callback(json);
       }
     } catch (error) {
-      console.log(error);
       this.props.callback({
         status: 400,
         data: {
