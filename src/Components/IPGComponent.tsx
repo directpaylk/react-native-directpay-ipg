@@ -72,12 +72,26 @@ class IPGComponent extends React.Component<Props, States> {
   // eslint-disable-next-line prettier/prettier
   componentWillUnmount() { }
 
+  debugging = `
+     // Debug
+     console = new Object();
+     console.log = function(log) {
+       //window.webViewBridge.send("console", log);
+       (window["ReactNativeWebView"]  || window).postMessage(log);
+     };
+     console.debug = console.log;
+     console.info = console.log;
+     console.warn = console.log;
+     console.error = console.log;
+     `;
+
   render() {
     return this.state.loading ? (
       <ActivityIndicator size="large" />
     ) : (
       <SafeAreaView>
         <WebView
+          injectedJavaScript={this.debugging}
           style={styles.container}
           source={{ uri: this.state.link! }}
           onLoadStart={(a) => {
@@ -92,12 +106,13 @@ class IPGComponent extends React.Component<Props, States> {
             }
           }}
           onMessage={(event) => {
+            console.log('CONSOLE', event);
             if (event.nativeEvent.url === this.state.link) {
               if (event.nativeEvent.data) {
-                let data = JSON.parse(event.nativeEvent.data);
-                if (data.event_id === this.state.token) {
-                  this.props.callback(data.response);
-                }
+                // let data = JSON.parse(event.nativeEvent.data);
+                // if (data.event_id === this.state.token) {
+                //   this.props.callback(data.response);
+                // }
               }
             }
           }}
