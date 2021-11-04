@@ -8,7 +8,7 @@ target 'DirectpaySdkExample' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'react-native-directpay-sdk', :path => '../..'
+  pod 'react-native-directpay-ipg', :path => '../..'
 
   # Enables Flipper.
   #
