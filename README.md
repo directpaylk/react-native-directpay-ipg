@@ -50,7 +50,11 @@ payload = {
 };
 ```
 #### signature
-Signature is HmacSHA256 hash of the base64 encoded payload string.
+Signature is HmacSHA256 hash of the base64 encoded payload string. The **secret** for HmacSHA256 can be found at developer portal.
+
+```js
+createHmacSha256Hash(base64jsonPayload, secret);
+```
 
 Provide these two arguments to IPGComponent and you'll receive the reponse from *callback* function.
 
