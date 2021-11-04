@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
 } from 'react-native';
-import { IPGStage } from 'react-native-directpay-sdk';
+import { IPGStage } from 'react-native-directpay-ipg';
 import WebView from 'react-native-webview';
 
 interface Props {

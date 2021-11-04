@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { IPGComponent, IPGStage } from 'react-native-directpay-sdk';
+import { IPGComponent, IPGStage } from 'react-native-directpay-ipg';
 import base64 from 'react-native-base64';
 import { JSHmac, CONSTANTS } from 'react-native-hash';
 

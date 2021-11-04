@@ -1,5 +1,5 @@
 {
-  "name": "react-native-directpay-sdk",
+  "name": "react-native-directpay-ipg",
   "version": "0.1.0",
   "description": "DirectSDK for IPG",
   "main": "lib/commonjs/index",
@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-directpay-sdk.podspec",
+    "react-native-directpay-ipg.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",

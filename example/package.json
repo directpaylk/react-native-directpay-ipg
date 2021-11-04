@@ -1,6 +1,6 @@
 {
-  "name": "react-native-directpay-sdk-example",
-  "description": "Example app for react-native-directpay-sdk",
+  "name": "react-native-directpay-ipg-example",
+  "description": "Example app for react-native-directpay-ipg",
   "version": "0.0.1",
   "private": true,
   "scripts": {

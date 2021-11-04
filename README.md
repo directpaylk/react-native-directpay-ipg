@@ -1,17 +1,17 @@
-# react-native-directpay-sdk
+# react-native-directpay-ipg
 
 DirectSDK for IPS
 
 ## Installation
 
 ```sh
-npm install react-native-directpay-sdk
+npm install react-native-directpay-ipg
 ```
 
 ## Usage
 
 ```js
-import { IPGComponent, IPGStage } from 'react-native-directpay-sdk';
+import { IPGComponent, IPGStage } from 'react-native-directpay-ipg';
 
 // ...
 
