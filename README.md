@@ -1,6 +1,6 @@
 # react-native-directpay-ipg
 
-React native SDK for DirectPay IPG
+React native SDK for [DirectPay IPG](https://directpay.lk/ipg, "DirectPay IPG")
 
 ## Installation
 
@@ -54,7 +54,9 @@ Signature is HmacSHA256 hash of the base64 encoded payload string.
 
 Provide these two arguments to IPGComponent and you'll receive the reponse from *callback* function.
 
+---
 
+Read more at [Documentation](https://doc.directpay.lk/, "DirectPay Documentation")
 
 ## Contributing
 
