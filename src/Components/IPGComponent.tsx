@@ -86,6 +86,7 @@ class IPGComponent extends React.Component<Props, States> {
             }
           }}
           onLoadEnd={(a) => {
+            console.log(a.nativeEvent.url);
             if (a.nativeEvent.url === this.state.link) {
               this.setState({ webloading: false });
             }
