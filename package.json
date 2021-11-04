@@ -34,15 +34,20 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "directpay",
+    "ipg",
+    "payments",
+    "payment gateway",
+    "ecommerce"
   ],
-  "repository": "https://github.com/directpaylk/react-native-directpay.git",
+  "repository": "https://github.com/directpaylk/react-native-directpay-ipg.git",
   "author": "DirectPay <info@directpay.lk> (https://directpay.lk)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/directpaylk/react-native-directpay.git/issues"
+    "url": "https://github.com/directpaylk/react-native-directpay-ipg.git/issues"
   },
-  "homepage": "https://github.com/directpaylk/react-native-directpay.git#readme",
+  "homepage": "https://github.com/directpaylk/react-native-directpay-ipg.git#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -145,7 +150,6 @@
     ]
   },
   "dependencies": {
-    "react-native-webview": "^11.14.2",
-    "utf8": "^3.0.0"
+    "react-native-webview": "^11.14.2"
   }
 }
