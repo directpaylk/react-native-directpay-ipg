@@ -34,20 +34,20 @@ import { IPGComponent, IPGStage } from 'react-native-directpay-ipg';
 
 #### payload
 Payload is a base64 encoded string that created from JSON payload string. Here is a sample object,
-```json
-payload = [
-   "merchant_id" : "xxxxxx",
-   "amount" : "10.00",
-   "type" : "ONE_TIME",
-   "order_id" : "CP123456789",
-   "currency" : "LKR",
-   "response_url" : "https://test.com/response-endpoint",
-   "first_name" : "Sam",
-   "last_name" : "Perera",
-   "email" : "user@email.com",
-   "phone" : "0712345678",
-   "logo" : "",
-];
+```js
+payload = {
+   merchant_id : "xxxxxx",
+   amount : "10.00",
+   type : "ONE_TIME",
+   order_id : "CP123456789",
+   currency : "LKR",
+   response_url : "https://test.com/response-endpoint",
+   first_name : "Sam",
+   last_name : "Perera",
+   email : "user@email.com",
+   phone : "0712345678",
+   logo : "",
+};
 ```
 #### signature
 Signature is HmacSHA256 hash of the base64 encoded payload string.
