@@ -24,3 +24,5 @@ export const DirectpaySdkView =
     : () => {
         throw new Error(LINKING_ERROR);
       };
+
+export { IPGComponent, IPGStage } from './Components';
