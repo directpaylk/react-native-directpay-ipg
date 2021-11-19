@@ -44,7 +44,7 @@ class IPGComponent extends React.Component<Props, States> {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'x-plugin-source': 'REACT-NATIVE',
-          'x-plugin-version': '0.1.3',
+          'x-plugin-version': '0.1.4',
           'Authorization': 'hmac ' + this.props.signature,
         },
         body: this.props.dataString,
