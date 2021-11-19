@@ -1,4 +1,6 @@
 import React from 'react';
+import VersionInfo from 'react-native-version-info';
+import Pusher from 'pusher-js/react-native';
 import {
   ActivityIndicator,
   Dimensions,
@@ -28,6 +30,9 @@ const sessionUrl = (stage: string) => {
     : 'https://test-gateway.directpay.lk/api/v3/create-session';
 };
 
+const pusher = new Pusher('42811ab9853898cf02b7', {
+  cluster: 'ap2',
+});
 class IPGComponent extends React.Component<Props, States> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
@@ -41,6 +46,8 @@ class IPGComponent extends React.Component<Props, States> {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'x-plugin-source': 'REACT-NATIVE',
+          'x-plugin-version': VersionInfo.appVersion,
           'Authorization': 'hmac ' + this.props.signature,
         },
         body: this.props.dataString,
@@ -48,6 +55,7 @@ class IPGComponent extends React.Component<Props, States> {
       const json = await response.json();
       if (json.status === 200) {
         this.setState({ token: json.data.token, link: json.data.link });
+        this.initPusher();
       } else {
         this.props.callback(json);
       }
@@ -65,14 +73,36 @@ class IPGComponent extends React.Component<Props, States> {
     }
   }
 
+  initPusher() {
+    let connection = pusher.connection.bind('error', function (err: any) {
+      if (err.error.data.code === 4004) {
+        console.log('Over limit!');
+      }
+    });
+    console.log(connection.state);
+    if (connection.state === 'connected') {
+      console.log('listening to channel');
+      const channel = pusher.subscribe('dp_plugin_dev');
+      channel.bind('new-message', function (data: any) {
+        console.log(data.message);
+      });
+
+      channel.bind('SDK_' + this.state.token, (data: any) => {
+        this.props.callback(data.response);
+      });
+    }
+  }
+
   componentDidMount() {
     this.createSession();
   }
 
-  // eslint-disable-next-line prettier/prettier
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    pusher.unsubscribe('dp_plugin_dev');
+    pusher.disconnect();
+  }
 
-  WebViewLoading() {
+  IndicatorLoadingView() {
     return <ActivityIndicator size="large" />;
   }
 
@@ -85,7 +115,7 @@ class IPGComponent extends React.Component<Props, States> {
           style={styles.container}
           source={{ uri: this.state.link! }}
           startInLoadingState={true}
-          renderError={this.WebViewLoading}
+          renderLoading={this.IndicatorLoadingView}
         />
       </SafeAreaView>
     );

@@ -19,7 +19,8 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
     "react-native-webview": "^11.14.2",
-    "utf8": "^3.0.0"
+    "utf8": "^3.0.0",
+    "@react-native-community/netinfo": "^7.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

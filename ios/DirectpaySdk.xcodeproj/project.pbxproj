@@ -10,6 +10,8 @@
 		5E555C0D2413F4C50049A1A2 /* DirectpaySdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* DirectpaySdk.m */; };
 		F4FF95D7245B92E800C19C63 /* DirectpaySdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* DirectpaySdk.swift */; };
 		427483AA373A4AC2BB67E067 /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F17EA815E032480D9FBE5D4D /* libRNCWebView.a */; };
+		E07F7DD65B0B4A2589A57B7C /* libRNVersionInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F44ABC5F311B49AC918F1FB8 /* libRNVersionInfo.a */; };
+		3D8D2992B71D4B798B09F1AC /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59197E560AE445B5870F7C03 /* libRNCNetInfo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,10 @@
 		F4FF95D6245B92E800C19C63 /* DirectpaySdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectpaySdk.swift; sourceTree = "<group>"; };
 		FEC9877A3EB84E088196074B /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; name = "RNCWebView.xcodeproj"; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		F17EA815E032480D9FBE5D4D /* libRNCWebView.a */ = {isa = PBXFileReference; name = "libRNCWebView.a"; path = "libRNCWebView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		E2E81BD09D9541C7A9EF4AA4 /* RNVersionInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNVersionInfo.xcodeproj"; path = "../node_modules/react-native-version-info/ios/RNVersionInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F44ABC5F311B49AC918F1FB8 /* libRNVersionInfo.a */ = {isa = PBXFileReference; name = "libRNVersionInfo.a"; path = "libRNVersionInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C9A60A7FFC7747539335E234 /* RNCNetInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNCNetInfo.xcodeproj"; path = "../node_modules/@react-native-community/netinfo/ios/RNCNetInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		59197E560AE445B5870F7C03 /* libRNCNetInfo.a */ = {isa = PBXFileReference; name = "libRNCNetInfo.a"; path = "libRNCNetInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +45,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				427483AA373A4AC2BB67E067 /* libRNCWebView.a in Frameworks */,
+				E07F7DD65B0B4A2589A57B7C /* libRNVersionInfo.a in Frameworks */,
+				3D8D2992B71D4B798B09F1AC /* libRNCNetInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +76,8 @@
 			isa = "PBXGroup";
 			children = (
 				FEC9877A3EB84E088196074B /* RNCWebView.xcodeproj */,
+				E2E81BD09D9541C7A9EF4AA4 /* RNVersionInfo.xcodeproj */,
+				C9A60A7FFC7747539335E234 /* RNCNetInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -243,6 +253,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/DirectpaySdk\"",
+					"\"$(SRCROOT)/DirectpaySdk\"",
+					"\"$(SRCROOT)/DirectpaySdk\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = DirectpaySdk;
@@ -264,6 +276,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/DirectpaySdk\"",
+					"\"$(SRCROOT)/DirectpaySdk\"",
 					"\"$(SRCROOT)/DirectpaySdk\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";

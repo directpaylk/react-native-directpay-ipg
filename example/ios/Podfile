@@ -20,4 +20,6 @@ target 'DirectpaySdkExample' do
   # end
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
 end
