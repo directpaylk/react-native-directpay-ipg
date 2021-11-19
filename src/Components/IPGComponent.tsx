@@ -72,6 +72,10 @@ class IPGComponent extends React.Component<Props, States> {
   // eslint-disable-next-line prettier/prettier
   componentWillUnmount() { }
 
+  WebViewLoading() {
+    return <ActivityIndicator size="large" />;
+  }
+
   render() {
     return this.state.loading ? (
       <ActivityIndicator size="large" />
@@ -80,27 +84,8 @@ class IPGComponent extends React.Component<Props, States> {
         <WebView
           style={styles.container}
           source={{ uri: this.state.link! }}
-          onLoadStart={(a) => {
-            if (a.nativeEvent.url === this.state.link) {
-              this.setState({ webloading: true });
-            }
-          }}
-          onLoadEnd={(a) => {
-            console.log(a.nativeEvent.url);
-            if (a.nativeEvent.url === this.state.link) {
-              this.setState({ webloading: false });
-            }
-          }}
-          onMessage={(event) => {
-            if (event.nativeEvent.url === this.state.link) {
-              if (event.nativeEvent.data) {
-                let data = JSON.parse(event.nativeEvent.data);
-                if (data.event_id === this.state.token) {
-                  this.props.callback(data.response);
-                }
-              }
-            }
-          }}
+          startInLoadingState={true}
+          renderError={this.WebViewLoading}
         />
       </SafeAreaView>
     );
