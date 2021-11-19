@@ -1,5 +1,4 @@
 import React from 'react';
-import VersionInfo from 'react-native-version-info';
 import Pusher from 'pusher-js/react-native';
 import {
   ActivityIndicator,
@@ -29,15 +28,13 @@ const sessionUrl = (stage: string) => {
     ? 'https://gateway.directpay.lk/api/v3/create-session'
     : 'https://test-gateway.directpay.lk/api/v3/create-session';
 };
-
-const pusher = new Pusher('42811ab9853898cf02b7', {
-  cluster: 'ap2',
-});
 class IPGComponent extends React.Component<Props, States> {
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = { link: '', token: null, loading: true, webloading: false };
   }
+
+  pusher: Pusher | undefined;
 
   async createSession() {
     try {
@@ -55,7 +52,7 @@ class IPGComponent extends React.Component<Props, States> {
       const json = await response.json();
       if (json.status === 200) {
         this.setState({ token: json.data.token, link: json.data.link });
-        this.initPusher();
+        this.initPusher(json.data.ak, json.data.ch);
       } else {
         this.props.callback(json);
       }
@@ -73,24 +70,30 @@ class IPGComponent extends React.Component<Props, States> {
     }
   }
 
-  initPusher() {
-    let connection = pusher.connection.bind('error', function (err: any) {
-      if (err.error.data.code === 4004) {
-        console.log('Over limit!');
-      }
+  async initPusher(ak: string, ch: string) {
+    console.log(ak, ch);
+    this.pusher = new Pusher(ak, {
+      cluster: 'ap2',
     });
-    console.log(connection.state);
-    if (connection.state === 'connected') {
-      console.log('listening to channel');
-      const channel = pusher.subscribe('dp_plugin_dev');
-      channel.bind('new-message', function (data: any) {
-        console.log(data.message);
-      });
 
-      channel.bind('SDK_' + this.state.token, (data: any) => {
-        this.props.callback(data.response);
-      });
-    }
+    setTimeout(() => {
+      let connection = this.pusher!.connection.bind(
+        'error',
+        function (err: any) {
+          if (err.error.data.code === 4004) {
+            console.log('Over limit!');
+          }
+        }
+      );
+      console.log(connection.state);
+      if (connection.state === 'connected') {
+        console.log('listening...');
+        const channel = this.pusher!.subscribe(ch);
+        channel.bind('SDK_' + this.state.token, (data: any) => {
+          this.props.callback(data.response);
+        });
+      }
+    }, 1000);
   }
 
   componentDidMount() {
@@ -98,8 +101,10 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   componentWillUnmount() {
-    pusher.unsubscribe('dp_plugin_dev');
-    pusher.disconnect();
+    if (this.pusher) {
+      this.pusher.unsubscribe('dp_plugin_dev');
+      this.pusher.disconnect();
+    }
   }
 
   IndicatorLoadingView() {
