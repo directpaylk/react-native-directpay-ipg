@@ -50,6 +50,7 @@ class IPGComponent extends React.Component<Props, States> {
         body: this.props.dataString,
       });
       const json = await response.json();
+      console.log(json);
       if (json.status === 200) {
         this.setState({ token: json.data.token, link: json.data.link });
         this.initPusher(json.data.ak, json.data.ch);
@@ -111,7 +112,7 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   IndicatorLoadingView() {
-    return <ActivityIndicator size="large" />;
+    return <ActivityIndicator size="large" style={styles.indicator} />;
   }
 
   render() {
@@ -120,11 +121,11 @@ class IPGComponent extends React.Component<Props, States> {
     ) : (
       <SafeAreaView>
         <WebView
+          startInLoadingState={true}
+          javaScriptEnabled={true}
+          renderLoading={this.IndicatorLoadingView}
           style={styles.container}
           source={{ uri: this.state.link! }}
-          startInLoadingState={true}
-          renderLoading={this.IndicatorLoadingView}
-          javaScriptEnabled={true}
         />
       </SafeAreaView>
     );
@@ -136,6 +137,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     marginVertical: 20,
+  },
+  indicator: {
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
