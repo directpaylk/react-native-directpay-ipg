@@ -71,11 +71,14 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   async initPusher(ak: string, ch: string) {
-    console.log(ak, ch);
     this.pusher = new Pusher(ak, {
       cluster: 'ap2',
     });
 
+    this.bindToPusher(ch);
+  }
+
+  bindToPusher(ch: string) {
     setTimeout(() => {
       let connection = this.pusher!.connection.bind(
         'error',
@@ -85,13 +88,13 @@ class IPGComponent extends React.Component<Props, States> {
           }
         }
       );
-      console.log(connection.state);
       if (connection.state === 'connected') {
-        console.log('listening...');
         const channel = this.pusher!.subscribe(ch);
         channel.bind('SDK_' + this.state.token, (data: any) => {
           this.props.callback(data.response);
         });
+      } else if (connection.state === 'connecting') {
+        this.bindToPusher(ch);
       }
     }, 1000);
   }
@@ -121,6 +124,7 @@ class IPGComponent extends React.Component<Props, States> {
           source={{ uri: this.state.link! }}
           startInLoadingState={true}
           renderLoading={this.IndicatorLoadingView}
+          javaScriptEnabled={true}
         />
       </SafeAreaView>
     );
