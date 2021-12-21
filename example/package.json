@@ -20,7 +20,8 @@
     "react-native-screens": "^3.9.0",
     "react-native-webview": "^11.14.3",
     "utf8": "^3.0.0",
-    "@react-native-community/netinfo": "^7.1.2"
+    "@react-native-community/netinfo": "^7.1.2",
+    "react-native-fast-image": "^8.5.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

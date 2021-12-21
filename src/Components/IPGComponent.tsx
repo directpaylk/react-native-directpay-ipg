@@ -1,13 +1,15 @@
 import React from 'react';
 import Pusher from 'pusher-js/react-native';
 import {
-  ActivityIndicator,
+  // ActivityIndicator,
   Dimensions,
   SafeAreaView,
   StyleSheet,
+  // Text,
 } from 'react-native';
 import { IPGStage } from 'react-native-directpay-ipg';
 import WebView from 'react-native-webview';
+import AwesomeLoading from 'react-native-awesome-loading';
 
 interface Props {
   stage: string;
@@ -112,12 +114,19 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   IndicatorLoadingView() {
-    return <ActivityIndicator size="large" style={styles.indicator} />;
+    return (
+      <AwesomeLoading
+        indicatorId={8}
+        size={50}
+        isActive={true}
+        text="Please wait..."
+      />
+    );
   }
 
   render() {
     return this.state.loading ? (
-      <ActivityIndicator size="large" />
+      this.IndicatorLoadingView()
     ) : (
       <SafeAreaView>
         <WebView

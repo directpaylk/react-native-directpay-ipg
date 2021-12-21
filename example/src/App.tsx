@@ -80,7 +80,7 @@ function PaymentScreen(nav: any) {
   const [mid, onChangeMid] = React.useState('DP00001');
   const [secret, onChangeSecret] = React.useState('u4V376WvJJij');
   const [amount, onChangeAmount] = React.useState('169.00');
-  const [type, onChangeType] = React.useState('ONE_TIME');
+  const [type, onChangeType] = React.useState('RECURRING');
   const [orderId, onChangeOId] = React.useState('INV00369');
   const [currency, onChangeCurrency] = React.useState('LKR');
   const [responseUrl, onChangeUrl] = React.useState(
@@ -201,6 +201,12 @@ function PaymentScreen(nav: any) {
               phone,
               email,
               logo,
+              interval: 1,
+              start_date: '2021-12-31',
+              end_date: '2022-12-31',
+              do_initial_payment: true,
+              initial_amount: amount,
+              recurring_amount: amount,
             });
 
             let signature = await createSignature(payload, secret);
