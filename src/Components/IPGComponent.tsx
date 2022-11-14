@@ -11,8 +11,6 @@ import { IPGStage } from 'react-native-directpay-ipg';
 import {WebView} from 'react-native-webview';
 import AwesomeLoading from 'react-native-awesome-loading';
 
-const pusher = Pusher.getInstance();
-
 interface Props {
   stage: string;
   signature: string;
@@ -33,6 +31,9 @@ const sessionUrl = (stage: string) => {
     : 'https://test-gateway.directpay.lk/api/v3/create-session';
 };
 class IPGComponent extends React.Component<Props, States> {
+
+  pusher = Pusher.getInstance();
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = { link: '', token: null, loading: true, webloading: false };
@@ -78,7 +79,7 @@ class IPGComponent extends React.Component<Props, States> {
     //   cluster: 'ap2',
     // });
 
-    await pusher?.init({ 
+    await this.pusher?.init({ 
       apiKey: ak,
       cluster: ch,
       onConnectionStateChange: (currentState: string) => {
@@ -89,8 +90,8 @@ class IPGComponent extends React.Component<Props, States> {
       } 
     });
 
-      await pusher?.subscribe({ channelName: ch });
-      await pusher?.connect();
+      await this.pusher?.subscribe({ channelName: ch });
+      await this.pusher?.connect();
 
    // this.bindToPusher(ch);
   }
@@ -121,9 +122,9 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   componentWillUnmount() {
-    if (pusher) {
-      pusher.unsubscribe({channelName: 'dp_plugin_dev'});
-      pusher.disconnect();
+    if (this.pusher) {
+      this.pusher.unsubscribe({channelName: 'dp_plugin_dev'});
+      this.pusher.disconnect();
     }
   }
 
