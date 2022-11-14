@@ -5,11 +5,12 @@ import {
   Dimensions,
   SafeAreaView,
   StyleSheet,
+  Text,
   // Text,
 } from 'react-native';
 import { IPGStage } from 'react-native-directpay-ipg';
 import {WebView} from 'react-native-webview';
-import AwesomeLoading from 'react-native-awesome-loading';
+//import AwesomeLoading from 'react-native-awesome-loading';
 
 interface Props {
   stage: string;
@@ -130,12 +131,13 @@ class IPGComponent extends React.Component<Props, States> {
 
   IndicatorLoadingView() {
     return (
-      <AwesomeLoading
-        indicatorId={8}
-        size={50}
-        isActive={true}
-        text="Please wait..."
-      />
+      // <AwesomeLoading
+      //   indicatorId={8}
+      //   size={50}
+      //   isActive={true}
+      //   text="Please wait..."
+      // />
+      <Text>Loading....</Text>
     );
   }
 
