@@ -1,5 +1,5 @@
 import React from 'react';
-import Pusher from 'pusher-js/react-native';
+import { Pusher } from '@pusher/pusher-websocket-react-native'
 import {
   // ActivityIndicator,
   Dimensions,
@@ -8,7 +8,7 @@ import {
   // Text,
 } from 'react-native';
 import { IPGStage } from 'react-native-directpay-ipg';
-import WebView from 'react-native-webview';
+import {WebView} from 'react-native-webview';
 import AwesomeLoading from 'react-native-awesome-loading';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   callback: Function;
 }
 
-interface States {
+interface States {  
   token: string | null;
   link: string;
   loading: boolean;
@@ -31,12 +31,13 @@ const sessionUrl = (stage: string) => {
     : 'https://test-gateway.directpay.lk/api/v3/create-session';
 };
 class IPGComponent extends React.Component<Props, States> {
+
+  pusher = Pusher.getInstance();
+
   constructor(props: Props | Readonly<Props>) {
     super(props);
     this.state = { link: '', token: null, loading: true, webloading: false };
   }
-
-  pusher: Pusher | undefined;
 
   async createSession() {
     try {
@@ -59,7 +60,7 @@ class IPGComponent extends React.Component<Props, States> {
       } else {
         this.props.callback(json);
       }
-    } catch (error) {
+    } catch (error) {  
       this.props.callback({
         status: 400,
         data: {
@@ -74,43 +75,51 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   async initPusher(ak: string, ch: string) {
-    this.pusher = new Pusher(ak, {
-      cluster: 'ap2',
+
+    await this.pusher?.init({ 
+      apiKey: ak,
+      cluster: ch,
+      onConnectionStateChange: (currentState: string) => {
+        console.log(`Connection: ${currentState}`);
+      },
+      onSubscriptionError: (channelName: string, message:string, e:any) => {
+        console.log(`onSubscriptionError: ${message} channelName: ${channelName} Exception: ${e}`);
+      } 
     });
 
-    this.bindToPusher(ch);
+      await this.pusher?.subscribe({ channelName: ch });
+      await this.pusher?.connect();
+
   }
 
-  bindToPusher(ch: string) {
-    setTimeout(() => {
-      let connection = this.pusher!.connection.bind(
-        'error',
-        function (err: any) {
-          if (err.error.data.code === 4004) {
-            console.log('Over limit!');
-          }
-        }
-      );
-      if (connection.state === 'connected') {
-        const channel = this.pusher!.subscribe(ch);
-        channel.bind('SDK_' + this.state.token, (data: any) => {
-          this.props.callback(data.response);
-        });
-      } else if (connection.state === 'connecting') {
-        this.bindToPusher(ch);
-      }
-    }, 1000);
-  }
+  // bindToPusher(ch: string) {
+  //   setTimeout(() => {
+  //     let connection = this.pusher!.connect.bind(
+  //       'error',
+  //       function (err: any) {
+  //         if (err.error.data.code === 4004) {
+  //           console.log('Over limit!');
+  //         }
+  //       }
+  //     );
+  //     // if (connection.state === 'connected') {
+  //     //   const channel = this.pusher!.subscribe(ch);
+  //     //   channel.bind('SDK_' + this.state.token, (data: any) => {
+  //     //     this.props.callback(data.response);
+  //     //   });
+  //     // } else if (connection.state === 'connecting') {
+  //     //   this.bindToPusher(ch);
+  //     // }
+  //   }, 1000);
+  // }
 
   componentDidMount() {
     this.createSession();
   }
 
   componentWillUnmount() {
-    if (this.pusher) {
-      this.pusher.unsubscribe('dp_plugin_dev');
-      this.pusher.disconnect();
-    }
+    this.pusher.unsubscribe({channelName: 'dp_plugin_dev'});
+    this.pusher.disconnect()
   }
 
   IndicatorLoadingView() {
@@ -121,18 +130,20 @@ class IPGComponent extends React.Component<Props, States> {
         isActive={true}
         text="Please wait..."
       />
+      // <Text>Loading....</Text>
     );
   }
 
   render() {
     return this.state.loading ? (
       this.IndicatorLoadingView()
-    ) : (
+    ) : 
+     (
       <SafeAreaView>
         <WebView
           startInLoadingState={true}
           javaScriptEnabled={true}
-          renderLoading={this.IndicatorLoadingView}
+          //renderLoading={this.IndicatorLoadingView}
           style={styles.container}
           source={{ uri: this.state.link! }}
         />
