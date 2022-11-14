@@ -1,5 +1,5 @@
 import React from 'react';
-import Pusher from 'pusher-js/react-native';
+import { Pusher } from '@pusher/pusher-websocket-react-native'
 import {
   // ActivityIndicator,
   Dimensions,
@@ -10,6 +10,8 @@ import {
 import { IPGStage } from 'react-native-directpay-ipg';
 import WebView from 'react-native-webview';
 import AwesomeLoading from 'react-native-awesome-loading';
+
+const pusher = Pusher.getInstance();
 
 interface Props {
   stage: string;
@@ -35,8 +37,6 @@ class IPGComponent extends React.Component<Props, States> {
     super(props);
     this.state = { link: '', token: null, loading: true, webloading: false };
   }
-
-  pusher: Pusher | undefined;
 
   async createSession() {
     try {
@@ -74,42 +74,56 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   async initPusher(ak: string, ch: string) {
-    this.pusher = new Pusher(ak, {
-      cluster: 'ap2',
+    // this.pusher = new Pusher(ak, {
+    //   cluster: 'ap2',
+    // });
+
+    await pusher?.init({ 
+      apiKey: ak,
+      cluster: ch,
+      onConnectionStateChange: (currentState: string) => {
+        console.log(`Connection: ${currentState}`);
+      },
+      onSubscriptionError: (channelName: string, message:string, e:any) => {
+        console.log(`onSubscriptionError: ${message} channelName: ${channelName} Exception: ${e}`);
+      } 
     });
 
-    this.bindToPusher(ch);
+      await pusher?.subscribe({ channelName: ch });
+      await pusher?.connect();
+
+   // this.bindToPusher(ch);
   }
 
-  bindToPusher(ch: string) {
-    setTimeout(() => {
-      let connection = this.pusher!.connection.bind(
-        'error',
-        function (err: any) {
-          if (err.error.data.code === 4004) {
-            console.log('Over limit!');
-          }
-        }
-      );
-      if (connection.state === 'connected') {
-        const channel = this.pusher!.subscribe(ch);
-        channel.bind('SDK_' + this.state.token, (data: any) => {
-          this.props.callback(data.response);
-        });
-      } else if (connection.state === 'connecting') {
-        this.bindToPusher(ch);
-      }
-    }, 1000);
-  }
+  // bindToPusher(ch: string) {
+  //   setTimeout(() => {
+  //     let connection = this.pusher!.connect.bind(
+  //       'error',
+  //       function (err: any) {
+  //         if (err.error.data.code === 4004) {
+  //           console.log('Over limit!');
+  //         }
+  //       }
+  //     );
+  //     // if (connection.state === 'connected') {
+  //     //   const channel = this.pusher!.subscribe(ch);
+  //     //   channel.bind('SDK_' + this.state.token, (data: any) => {
+  //     //     this.props.callback(data.response);
+  //     //   });
+  //     // } else if (connection.state === 'connecting') {
+  //     //   this.bindToPusher(ch);
+  //     // }
+  //   }, 1000);
+  // }
 
   componentDidMount() {
     this.createSession();
   }
 
   componentWillUnmount() {
-    if (this.pusher) {
-      this.pusher.unsubscribe('dp_plugin_dev');
-      this.pusher.disconnect();
+    if (pusher) {
+      pusher.unsubscribe({channelName: 'dp_plugin_dev'});
+      pusher.disconnect();
     }
   }
 
