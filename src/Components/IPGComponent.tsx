@@ -42,8 +42,8 @@ class IPGComponent extends React.Component<Props, States> {
 
   async kissSession() {
     //this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
-    this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
-    this.pusher.disconnect()
+    await this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
+    await this.pusher.disconnect()
   }
 
   async createSession() {
@@ -143,11 +143,16 @@ class IPGComponent extends React.Component<Props, States> {
   // }
 
   componentDidMount() {
+    let isMounted = true;      
+
     this.createSession();
   }
 
   componentWillUnmount() {
-    this.kissSession()
+    if(this.pusher) {
+      this.kissSession()
+    }
+   
   }
 
 
