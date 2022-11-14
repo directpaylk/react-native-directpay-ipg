@@ -8,7 +8,7 @@ import {
   // Text,
 } from 'react-native';
 import { IPGStage } from 'react-native-directpay-ipg';
-import {WebView} from 'react-native-webview';
+import { WebView } from 'react-native-webview';
 import AwesomeLoading from 'react-native-awesome-loading';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   callback: Function;
 }
 
-interface States {  
+interface States {
   token: string | null;
   link: string;
   loading: boolean;
@@ -33,6 +33,7 @@ const sessionUrl = (stage: string) => {
 class IPGComponent extends React.Component<Props, States> {
 
   pusher = Pusher.getInstance();
+
 
   constructor(props: Props | Readonly<Props>) {
     super(props);
@@ -60,7 +61,7 @@ class IPGComponent extends React.Component<Props, States> {
       } else {
         this.props.callback(json);
       }
-    } catch (error) {  
+    } catch (error) {
       this.props.callback({
         status: 400,
         data: {
@@ -76,19 +77,30 @@ class IPGComponent extends React.Component<Props, States> {
 
   async initPusher(ak: string, ch: string) {
 
-    await this.pusher?.init({ 
+    await this.pusher?.init({
       apiKey: ak,
       cluster: ch,
-      onConnectionStateChange: (currentState: string) => {
-        console.log(`Connection: ${currentState}`);
+      onConnectionStateChange: async (currentState: string) => {
+        //console.log(`Connection: ${currentState}`);
+        if (currentState == "CONNECTED") {
+          let data: any;
+          await this.pusher?.subscribe({
+            channelName: ch, onSubscriptionSucceeded(data) {
+              data = data.response
+            },
+          });
+          this.props.callback(data)
+          // channel.onSubscriptionSucceeded = (data) => {
+          //   this.props.callback(data.response)
+          // }
+        }
       },
-      onSubscriptionError: (channelName: string, message:string, e:any) => {
+      onSubscriptionError: (channelName: string, message: string, e: any) => {
         console.log(`onSubscriptionError: ${message} channelName: ${channelName} Exception: ${e}`);
-      } 
+      }
     });
 
-      await this.pusher?.subscribe({ channelName: ch });
-      await this.pusher?.connect();
+    await this.pusher?.connect();
 
   }
 
@@ -118,9 +130,10 @@ class IPGComponent extends React.Component<Props, States> {
   }
 
   componentWillUnmount() {
-    this.pusher.unsubscribe({channelName: 'dp_plugin_dev'});
+    this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
     this.pusher.disconnect()
   }
+
 
   IndicatorLoadingView() {
     return (
@@ -137,18 +150,18 @@ class IPGComponent extends React.Component<Props, States> {
   render() {
     return this.state.loading ? (
       this.IndicatorLoadingView()
-    ) : 
-     (
-      <SafeAreaView>
-        <WebView
-          startInLoadingState={true}
-          javaScriptEnabled={true}
-          //renderLoading={this.IndicatorLoadingView}
-          style={styles.container}
-          source={{ uri: this.state.link! }}
-        />
-      </SafeAreaView>
-    );
+    ) :
+      (
+        <SafeAreaView>
+          <WebView
+            startInLoadingState={true}
+            javaScriptEnabled={true}
+            //renderLoading={this.IndicatorLoadingView}
+            style={styles.container}
+            source={{ uri: this.state.link! }}
+          />
+        </SafeAreaView>
+      );
   }
 }
 
