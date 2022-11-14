@@ -73,7 +73,7 @@
     "react-native-awesome-loading": "^1.0.15",
     "react-native-builder-bob": "^0.18.0",
     "react-native-fast-image": "^8.5.11",
-    "react-native-webview": "^11.14.3",
+    "react-native-webview": "^11.23.1",
     "release-it": "^14.2.2",
     "typescript": "^4.1.3"
   },

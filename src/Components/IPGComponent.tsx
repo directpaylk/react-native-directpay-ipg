@@ -8,7 +8,7 @@ import {
   // Text,
 } from 'react-native';
 import { IPGStage } from 'react-native-directpay-ipg';
-import WebView from 'react-native-webview';
+import {WebView} from 'react-native-webview';
 import AwesomeLoading from 'react-native-awesome-loading';
 
 const pusher = Pusher.getInstance();
