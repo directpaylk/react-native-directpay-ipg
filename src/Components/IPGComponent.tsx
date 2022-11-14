@@ -105,6 +105,15 @@ class IPGComponent extends React.Component<Props, States> {
       },
       onSubscriptionError: (channelName: string, message: string, e: any) => {
         //console.log(`onSubscriptionError: ${message} channelName: ${channelName} Exception: ${e}`);
+        console.log(`onSubscriptionError: ${message} channelName: ${channelName} Exception: ${e}`);
+        this.props.callback({
+          status: 400,
+          data: {
+            code: 'SERVER_ERROR',
+            title: 'Failed proceed payment',
+            message: message,
+          },
+        });
       },
     });
 
