@@ -143,8 +143,6 @@ class IPGComponent extends React.Component<Props, States> {
   // }
 
   componentDidMount() {
-    let isMounted = true;      
-
     this.createSession();
   }
 
