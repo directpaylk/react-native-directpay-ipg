@@ -33,6 +33,7 @@ const sessionUrl = (stage: string) => {
 class IPGComponent extends React.Component<Props, States> {
 
   pusher = Pusher.getInstance();
+  _isMounted = false;
 
 
   constructor(props: Props | Readonly<Props>) {
@@ -42,8 +43,12 @@ class IPGComponent extends React.Component<Props, States> {
 
   async killSession() {
     //this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
-    await this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
-    await this.pusher.disconnect()
+    if(this._isMounted) {
+      await this.pusher.disconnect()
+      await this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
+      // await this.pusher.disconnect()
+    }
+    
   }
 
   async createSession() {
@@ -65,9 +70,7 @@ class IPGComponent extends React.Component<Props, States> {
         this.setState({ token: json.data.token, link: json.data.link });
         this.initPusher(json.data.ak, json.data.ch);
       } else {
-        console.log("unsuccess");
-        this.killSession()
-        this.setState({ loading: false });
+   
         this.props.callback(json);
 
       }
@@ -81,10 +84,9 @@ class IPGComponent extends React.Component<Props, States> {
         },
       });
       this.setState({ loading: false });
-      this.killSession()
     } finally {
+      console.log("finally");
       this.setState({ loading: false });
-      this.killSession()
     }
   }
 
@@ -148,14 +150,16 @@ class IPGComponent extends React.Component<Props, States> {
   // }
 
   componentDidMount() {
+    this._isMounted = true;
     this.createSession();
   }
 
   componentWillUnmount() {
-    if(this.pusher) {
+    this._isMounted = false;
+    if (this.pusher) {
       this.killSession()
     }
-   
+
   }
 
 
