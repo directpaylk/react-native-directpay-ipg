@@ -18,13 +18,6 @@ interface Props {
     callback: Function;
 }
 
-interface States {
-    token: string | null;
-    link: string;
-    loading: boolean;
-    webloading: boolean;
-}
-
 const sessionUrl = (stage: string) => {
     return stage === IPGStage.PROD
         ? 'https://gateway.directpay.lk/api/v3/create-session'
