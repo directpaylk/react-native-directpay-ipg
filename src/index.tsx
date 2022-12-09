@@ -1,1 +1,1 @@
-export { IPGComponent, IPGStage, IPGFunctionalComponent  } from './Components';
+export { IPGComponent, IPGStage  } from './Components';
