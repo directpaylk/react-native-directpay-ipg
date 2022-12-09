@@ -67,6 +67,7 @@ class IPGComponent extends React.Component<Props, States> {
       } else {
         console.log("unsuccess");
         this.killSession()
+        this.setState({ loading: false });
         this.props.callback(json);
 
       }
@@ -79,6 +80,7 @@ class IPGComponent extends React.Component<Props, States> {
           message: 'Failed proceed payment',
         },
       });
+      this.setState({ loading: false });
       this.killSession()
     } finally {
       this.setState({ loading: false });
