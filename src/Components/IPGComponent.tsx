@@ -127,6 +127,7 @@ function IPGFunctionalComponent(props: Props) {
   useEffect(() => {
     let isMounted = true;
     createSession()
+    if(isMounted) {}
     return () => {
       isMounted = false;
     };
