@@ -57,6 +57,7 @@ function IPGFunctionalComponent(props: Props) {
                 iniPusher(json.data.ak, json.data.ch)
             } else {
                 props.callback(json)
+                return setState({...state, loading: false})
             }
 
         } catch (e) {
