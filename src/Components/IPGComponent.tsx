@@ -40,7 +40,7 @@ class IPGComponent extends React.Component<Props, States> {
     this.state = { link: '', token: null, loading: true, webloading: false };
   }
 
-  async kissSession() {
+  async killSession() {
     //this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
     await this.pusher.unsubscribe({ channelName: 'dp_plugin_dev' });
     await this.pusher.disconnect()
@@ -66,6 +66,7 @@ class IPGComponent extends React.Component<Props, States> {
         this.initPusher(json.data.ak, json.data.ch);
       } else {
         this.props.callback(json);
+        this.killSession()
       }
     } catch (error) {
       this.props.callback({
@@ -76,10 +77,10 @@ class IPGComponent extends React.Component<Props, States> {
           message: 'Failed proceed payment',
         },
       });
-      this.kissSession()
+      this.killSession()
     } finally {
       this.setState({ loading: false });
-      this.kissSession()
+      this.killSession()
     }
   }
 
@@ -148,7 +149,7 @@ class IPGComponent extends React.Component<Props, States> {
 
   componentWillUnmount() {
     if(this.pusher) {
-      this.kissSession()
+      this.killSession()
     }
    
   }
