@@ -17,7 +17,6 @@ interface Props {
   dataString: string;
   callback: Function;
 }
-
 const sessionUrl = (stage: string) => {
   return stage === IPGStage.PROD
     ? 'https://gateway.directpay.lk/api/v3/create-session'
@@ -127,7 +126,7 @@ function IPGFunctionalComponent(props: Props) {
   useEffect(() => {
     let isMounted = true;
     createSession()
-    if(isMounted) {}
+    if (isMounted) { }
     return () => {
       isMounted = false;
     };
