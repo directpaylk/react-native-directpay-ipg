@@ -65,8 +65,8 @@ class IPGComponent extends React.Component<Props, States> {
         this.setState({ token: json.data.token, link: json.data.link });
         this.initPusher(json.data.ak, json.data.ch);
       } else {
+        console.log("unsuccess");
         this.props.callback(json);
-        this.killSession()
       }
     } catch (error) {
       this.props.callback({
