@@ -1,5 +1,5 @@
 {
-  "name": "react-native-directpay-ipg-plugin",
+  "name": "@directpay/react-native-directpay-ipg",
   "version": "1.0.1",
   "description": "DirectSDK for IPG",
   "main": "lib/commonjs/index",
@@ -41,7 +41,7 @@
     "payment gateway",
     "ecommerce"
   ],
-  "repository": "https://github.com/directpaylk/react-native-directpay-ipg.git",
+  "repository": "https://github.com/directpaylk/react-native-directpay-ipg.git#fixed-plugin-issue",
   "author": "DirectPay <info@directpay.lk> (https://directpay.lk)",
   "license": "MIT",
   "bugs": {
