@@ -1,6 +1,6 @@
 {
-  "name": "react-native-directpay-ipg",
-  "version": "0.1.9",
+  "name": "@directpay/react-native-directpay-ipg",
+  "version": "1.0.1",
   "description": "DirectSDK for IPG",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

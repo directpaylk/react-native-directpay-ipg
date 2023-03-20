@@ -5,13 +5,13 @@ React native SDK for [DirectPay IPG](https://directpay.lk/ipg, "DirectPay IPG")
 ## Installation
 
 ```sh
-npm install react-native-directpay-ipg
+npm install react-native-directpay-ipg-plugin
 ```
 
 ## Usage
 
 ```js
-import { IPGComponent, IPGStage } from 'react-native-directpay-ipg';
+import { IPGComponent, IPGStage } from 'react-native-directpay-ipg-plugin';
 
 // ...
 
