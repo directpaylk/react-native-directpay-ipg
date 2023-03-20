@@ -1,5 +1,5 @@
 {
-  "name": "@directpay/react-native-directpay-ipg",
+  "name": "react-native-directpay-ipg-plugin",
   "version": "1.0.1",
   "description": "DirectSDK for IPG",
   "main": "lib/commonjs/index",
